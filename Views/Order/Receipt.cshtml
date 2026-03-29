@@ -1,0 +1,54 @@
+@model RestaurantSystem.Models.Order
+@{ViewData["Title"] = "Receipt"; Layout = null;}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Receipt #@Model.Id</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        body { background: #f0f2f5; font-family: 'Courier New', monospace; }
+        .receipt { max-width: 400px; margin: 40px auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .receipt-header { text-align: center; border-bottom: 2px dashed #dee2e6; padding-bottom: 20px; margin-bottom: 20px; }
+        .receipt-footer { border-top: 2px dashed #dee2e6; padding-top: 20px; margin-top: 20px; text-align: center; }
+        .item-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; color: #8B0000; }
+        @@media print { .no-print { display: none; } body { background: white; } }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <div class="receipt-header">
+            <h3 class="fw-bold mb-1">🍽️ RestaurantSystem</h3>
+            <p class="text-muted mb-1 small">Thank you for your order!</p>
+            <p class="mb-0 small">@DateTime.Now.ToString("MMMM dd, yyyy HH:mm")</p>
+        </div>
+
+        <p class="mb-1"><strong>Order #:</strong> @Model.Id</p>
+        <p class="mb-1"><strong>Customer:</strong> @Model.CustomerName</p>
+        <p class="mb-3"><strong>Email:</strong> @Model.CustomerEmail</p>
+
+        <hr/>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <div class="item-row">
+                <span>@detail.MenuItem.Name x@detail.Quantity</span>
+                <span>$@((detail.Quantity * detail.UnitPrice).ToString("0.00"))</span>
+            </div>
+        }
+        <hr/>
+
+        <div class="total-row">
+            <span>TOTAL</span>
+            <span>$@Model.TotalAmount.ToString("0.00")</span>
+        </div>
+
+        <div class="receipt-footer">
+            <p class="text-muted small mb-0">Status: <strong>@Model.Status</strong></p>
+            <p class="text-muted small mb-3">Please come again! 😊</p>
+            <button onclick="window.print()" class="btn btn-danger w-100 no-print">🖨️ Print Receipt</button>
+            <a href="/Order" class="btn btn-outline-secondary w-100 mt-2 no-print">Back to Orders</a>
+        </div>
+    </div>
+</body>
+</html>

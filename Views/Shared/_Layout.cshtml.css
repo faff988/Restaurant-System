@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Restaurant System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar { background-color: #8B0000 !important; }
+        .navbar-brand, .nav-link { color: white !important; }
+        .nav-link:hover { color: #ffd700 !important; }
+        .card { border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 12px; }
+        .btn-primary { background-color: #8B0000; border-color: #8B0000; }
+        .btn-primary:hover { background-color: #6b0000; border-color: #6b0000; }
+        .badge-pending { background-color: #ffc107; color: black; }
+        .badge-confirmed { background-color: #28a745; }
+        .badge-cancelled { background-color: #dc3545; }
+        footer { background-color: #8B0000; color: white; padding: 20px 0; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/"><i class="fas fa-utensils me-2"></i>RestaurantSystem</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Menu"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Order"><i class="fas fa-shopping-cart me-1"></i>Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Reservation"><i class="fas fa-calendar me-1"></i>Reservations</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <footer class="text-center">
+        <p class="mb-0">© 2025 RestaurantSystem. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

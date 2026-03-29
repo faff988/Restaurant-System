@@ -1,0 +1,95 @@
+@{ViewData["Title"] = "Admin Dashboard";}
+
+<div class="page-header mb-4">
+    <h2 class="fw-bold mb-1"><i class="fas fa-cog me-2"></i>Admin Dashboard</h2>
+    <p class="opacity-75 mb-0">Manage your restaurant system</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <div style="font-size:2rem">📋</div>
+            <h2 class="fw-bold mt-2">@ViewBag.TotalMenuItems</h2>
+            <p class="opacity-75 mb-0">Menu Items</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+            <div style="font-size:2rem">🛒</div>
+            <h2 class="fw-bold mt-2">@ViewBag.TotalOrders</h2>
+            <p class="opacity-75 mb-0">Total Orders</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <div style="font-size:2rem">📅</div>
+            <h2 class="fw-bold mt-2">@ViewBag.TotalReservations</h2>
+            <p class="opacity-75 mb-0">Reservations</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+            <div style="font-size:2rem">💰</div>
+            <h2 class="fw-bold mt-2">$@string.Format("{0:0.00}", ViewBag.TotalRevenue)</h2>
+            <p class="opacity-75 mb-0">Total Revenue</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-clock me-2 text-danger"></i>Recent Orders</h5>
+            <table class="table table-hover">
+                <thead><tr><th>#</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+                <tbody>
+                    @foreach (var order in ViewBag.RecentOrders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.CustomerName</td>
+                            <td class="fw-bold text-danger">$@order.TotalAmount.ToString("0.00")</td>
+                            <td><span class="badge @(order.Status == "Completed" ? "bg-success" : order.Status == "Pending" ? "bg-warning text-dark" : "bg-danger")">@order.Status</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a href="/Order" class="btn btn-primary btn-sm">View All Orders</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-users me-2 text-danger"></i>User Management</h5>
+            <table class="table table-hover">
+                <thead><tr><th>Email</th><th>Action</th></tr></thead>
+                <tbody>
+                    @foreach (var user in ViewBag.Users)
+                    {
+                        <tr>
+                            <td>@user.Email</td>
+                            <td>
+                                <a href="/Admin/DeleteUser/@user.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this user?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-12">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-tools me-2 text-danger"></i>Quick Actions</h5>
+            <div class="d-flex gap-3 flex-wrap">
+                <a href="/Menu/Create" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add Menu Item</a>
+                <a href="/Order" class="btn btn-primary"><i class="fas fa-shopping-cart me-2"></i>Manage Orders</a>
+                <a href="/Reservation" class="btn btn-primary"><i class="fas fa-calendar me-2"></i>Manage Reservations</a>
+                <a href="/Report" class="btn btn-primary"><i class="fas fa-chart-bar me-2"></i>View Reports</a>
+            </div>
+        </div>
+    </div>
+</div>

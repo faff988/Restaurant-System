@@ -1,0 +1,28 @@
+@model List<RestaurantSystem.Models.Reservation>
+@{ViewData["Title"] = "Reservations";}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-calendar me-2 text-danger"></i>Reservations</h2>
+    <a href="/Reservation/Create" class="btn btn-primary"><i class="fas fa-plus me-2"></i>New Reservation</a>
+</div>
+<div class="card">
+    <table class="table table-hover mb-0">
+        <thead class="table-dark">
+            <tr><th>#</th><th>Customer</th><th>Phone</th><th>Date & Time</th><th>Guests</th><th>Status</th><th>Special Requests</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.CustomerName<br/><small class="text-muted">@r.CustomerEmail</small></td>
+                    <td>@r.CustomerPhone</td>
+                    <td>@r.ReservationDate.ToString("MMM dd, yyyy HH:mm")</td>
+                    <td>@r.NumberOfGuests</td>
+                    <td><span class="badge bg-success">@r.Status</span></td>
+                    <td><small>@r.SpecialRequests</small></td>
+                    <td><a href="/Reservation/Delete/@r.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('Cancel this reservation?')"><i class="fas fa-trash"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

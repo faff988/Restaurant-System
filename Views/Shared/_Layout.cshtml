@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Restaurant System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        body { background-color: #f0f2f5; }
+        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+        .navbar-brand { color: white !important; font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; }
+        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 6px 12px !important; border-radius: 8px; margin: 0 2px; font-size: 0.9rem; }
+        .nav-link i { font-size: 0.85rem; }
+        .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.1); }
+        .nav-link.active { color: #ffd700 !important; background: rgba(255,255,255,0.15); }
+        .card { border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+        .btn-primary { background: linear-gradient(135deg, #8B0000, #cc0000); border: none; border-radius: 10px; font-weight: 600; padding: 8px 20px; transition: all 0.3s; }
+        .btn-primary:hover { background: linear-gradient(135deg, #6b0000, #aa0000); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(139,0,0,0.4); }
+        .btn-outline-primary { border-color: #8B0000; color: #8B0000; border-radius: 10px; font-weight: 600; }
+        .btn-outline-primary:hover { background: #8B0000; border-color: #8B0000; }
+        .btn-outline-danger { border-radius: 10px; font-weight: 600; }
+        .btn-outline-secondary { border-radius: 10px; font-weight: 600; }
+        .badge { border-radius: 8px; padding: 6px 12px; font-weight: 600; }
+        .table { border-radius: 12px; overflow: hidden; }
+        .table thead th { background: #1a1a2e; color: white; border: none; padding: 14px; font-weight: 600; }
+        .table tbody tr:hover { background: #fff5f5; }
+        .form-control, .form-select { border-radius: 10px; border: 2px solid #e9ecef; padding: 10px 15px; transition: border-color 0.3s; }
+        .form-control:focus, .form-select:focus { border-color: #8B0000; box-shadow: 0 0 0 0.2rem rgba(139,0,0,0.15); }
+        .page-header { background: linear-gradient(135deg, #1a1a2e, #8B0000); color: white; border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+        .stat-card { border-radius: 16px; padding: 24px; color: white; position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+        footer { background: linear-gradient(135deg, #1a1a2e, #8B0000); color: white; padding: 25px 0; margin-top: 60px; }
+        .sidebar-link { display: block; padding: 10px 16px; border-radius: 10px; color: #495057; text-decoration: none; font-weight: 500; margin-bottom: 4px; transition: all 0.2s; }
+        .sidebar-link:hover, .sidebar-link.active { background: linear-gradient(135deg, #8B0000, #cc0000); color: white; }
+        .sidebar-link i { width: 20px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-utensils me-2"></i>🍽️ RestaurantSystem</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+            
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item"><a class="nav-link" href="/Menu"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Order"><i class="fas fa-shopping-cart me-1"></i>Orders</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Reservation"><i class="fas fa-calendar me-1"></i>Reservations</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Report"><i class="fas fa-chart-bar me-1"></i>Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Admin"><i class="fas fa-cog me-1"></i>Admin</a></li>
+            }
+            else
+            {
+                <li class="nav-item"><a class="nav-link" href="/Menu"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Order/Create"><i class="fas fa-shopping-cart me-1"></i>Order Now</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Reservation/Create"><i class="fas fa-calendar me-1"></i>Book Table</a></li>
+            }
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item ms-2">
+                    <a class="nav-link btn btn-outline-light px-3" href="/Account/Logout">
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item"><a class="nav-link" href="/Account/Login"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Account/Register"><i class="fas fa-user-plus me-1"></i>Register</a></li>
+            }
+        </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4 mb-5">
+        @RenderBody()
+    </main>
+
+    <footer class="text-center">
+        <p class="mb-1 fw-bold">🍽️ RestaurantSystem</p>
+        <p class="mb-0 small opacity-75">© 2026 All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

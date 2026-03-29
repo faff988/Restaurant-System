@@ -1,0 +1,91 @@
+@{ViewData["Title"] = "Reports";}
+
+<div class="page-header mb-4">
+    <h2 class="fw-bold mb-1"><i class="fas fa-chart-bar me-2"></i>Reports & Analytics</h2>
+    <p class="opacity-75 mb-0">Overview of your restaurant performance</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <div style="font-size:2rem">🛒</div>
+            <h2 class="fw-bold mt-2">@ViewBag.TotalOrders</h2>
+            <p class="opacity-75 mb-0">Total Orders</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+            <div style="font-size:2rem">💰</div>
+            <h2 class="fw-bold mt-2">$@string.Format("{0:0.00}", ViewBag.TotalRevenue)</h2>
+            <p class="opacity-75 mb-0">Total Revenue</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+            <div style="font-size:2rem">📅</div>
+            <h2 class="fw-bold mt-2">@ViewBag.TotalReservations</h2>
+            <p class="opacity-75 mb-0">Total Reservations</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+            <div style="font-size:2rem">⏳</div>
+            <h2 class="fw-bold mt-2">@ViewBag.PendingOrders</h2>
+            <p class="opacity-75 mb-0">Pending Orders</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-7">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-clock me-2 text-danger"></i>Recent Orders</h5>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in ViewBag.RecentOrders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.CustomerName</td>
+                            <td class="fw-bold text-danger">$@order.TotalAmount.ToString("0.00")</td>
+                            <td>
+                                <span class="badge @(order.Status == "Completed" ? "bg-success" : order.Status == "Pending" ? "bg-warning text-dark" : "bg-danger")">
+                                    @order.Status
+                                </span>
+                            </td>
+                            <td class="small text-muted">@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-star me-2 text-danger"></i>Top Selling Items</h5>
+            @foreach (var item in ViewBag.TopItems)
+            {
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold">@item.Name</span>
+                    <span class="badge bg-danger">@item.Count sold</span>
+                </div>
+                <div class="progress mb-3" style="height:8px; border-radius:10px;">
+                    <div class="progress-bar bg-danger" style="width: @(item.Count * 20)%; border-radius:10px;"></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="card p-4">
+    <h5 class="fw-bold mb-3"><i class="fas fa-download me-2 text-danger"></i>Export Reports</h5>
+    <div class="d-flex gap-3">
+        <a href="/Report/ExportPdf" class="btn btn-danger px-4"><i class="fas fa-file-pdf me-2"></i>Export PDF</a>
+        <a href="/Report/ExportExcel" class="btn btn-success px-4"><i class="fas fa-file-excel me-2"></i>Export Excel</a>
+    </div>
+</div>
