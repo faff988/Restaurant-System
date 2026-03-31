@@ -48,7 +48,17 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        db.Database.Migrate();
+        var pendingMigrations = await db.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
+        {
+            Console.WriteLine($"Found {pendingMigrations.Count()} pending migrations. Applying now...");
+            await db.Database.MigrateAsync();
+            Console.WriteLine("Database tables created successfully.");
+        }
+        else
+        {
+            Console.WriteLine("No pending migrations found. Database is already up to date or Migrations folder is missing.");
+        }
     }
     catch (Exception ex)
     {
