@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite("Data Source=restaurant.db"));
+    options.UseMySql(
+        "Server=localhost;Port=3306;Database=restaurantdb;User=root;Password=;",
+        ServerVersion.AutoDetect("Server=localhost;Port=3306;Database=restaurantdb;User=root;Password=;")));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
