@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+        new MySqlServerVersion(new Version(8, 0, 31))));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -45,8 +45,19 @@ app.MapControllerRoute(
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("---------------------------------------------------------------------------");
+        Console.WriteLine("DATABASE CONNECTION ERROR: Ensure WampServer is green, the database 'restaurantdb' exists, and the port in appsettings.json matches your MySQL port.");
+        Console.WriteLine($"Error Details: {ex.Message}");
+        Console.WriteLine("---------------------------------------------------------------------------");
+        throw;
+    }
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
