@@ -33,11 +33,11 @@
                         class="badge @(order.Status == "Pending" ? "bg-warning text-dark" : order.Status == "Completed" ? "bg-success" : "bg-danger")">@order.Status</span>
                     </td>
                     <td>
-                        <div class="d-flex align-items-center gap-2 justify-content-center">
-                            <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-outline-primary btn-action" title="View"><i class="fas fa-eye"></i></a>
-                            <a asp-action="Receipt" asp-route-id="@order.Id" class="btn btn-outline-dark btn-action" target="_blank" title="PDF"><i class="fas fa-file-pdf"></i></a>
+                        <div class="d-flex align-items-center gap-2">
+                            <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-outline-primary btn-action shadow-sm" title="View"><i class="fas fa-eye"></i></a>
+                            <a asp-action="Receipt" asp-route-id="@order.Id" class="btn btn-outline-dark btn-action shadow-sm" target="_blank" title="PDF"><i class="fas fa-file-pdf"></i></a>
                             <form asp-action="Delete" asp-route-id="@order.Id" method="post" class="d-inline m-0" onsubmit="return confirm('Delete permanently?');">
-                                <button type="submit" class="btn btn-outline-danger btn-action">
+                                <button type="submit" class="btn btn-outline-danger btn-action shadow-sm">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>

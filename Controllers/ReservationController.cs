@@ -29,6 +29,7 @@ namespace RestaurantSystem.Controllers
             return View(reservation);
         }
         // Allow customers to view their own reservation details
+        // This action is for customers to view THEIR OWN reservations.
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CustomerDetails(int id)
         {

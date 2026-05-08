@@ -27,6 +27,7 @@ namespace RestaurantSystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken] // Added for security
         public async Task<IActionResult> Create(string customerName, string customerEmail, int[] menuItemIds, int[] quantities)
         {
             var order = new Order { CustomerName = customerName, CustomerEmail = customerEmail };
@@ -54,12 +55,14 @@ namespace RestaurantSystem.Controllers
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
             
-            // Redirect to review page immediately
+            // Redirect based on user role
             if (User.IsInRole("Customer"))
             {
                 return RedirectToAction(nameof(CustomerDetails), new { id = order.Id });
             }
-            return RedirectToAction(nameof(Details), new { id = order.Id });
+            // For Admin/Staff, redirect to the management list
+            // For other authenticated users (e.g., Staff), redirect to the details page
+            return RedirectToAction(nameof(Index)); 
         }
 
         [Authorize(Roles = "Admin,Staff")]
