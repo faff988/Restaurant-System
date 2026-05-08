@@ -41,7 +41,13 @@ namespace RestaurantSystem.Controllers
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Reservation booked successfully!";
-                return RedirectToAction(nameof(Index));
+                
+                if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction("Index", "Home");
             }
             return View(reservation);
         }

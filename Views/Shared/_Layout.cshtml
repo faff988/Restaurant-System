@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,13 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        body { background-color: #f8f9fc; color: #2d3436; margin: 0 !important; padding: 0 !important; overflow-x: hidden; position: relative; top: 0; }
-        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); margin: 0 !important; min-height: 70px; display: flex; align-items: center; border-radius: 0; }
+        html, body { margin: 0 !important; padding: 0 !important; height: 100%; width: 100%; }
+        body { background-color: #f8f9fc; color: #2d3436; overflow-x: hidden; position: absolute; top: 0; left: 0; right: 0; }
+        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); margin: 0 !important; min-height: 75px; display: flex; align-items: center; border-radius: 0; padding: 0; border: none; }
         .navbar-brand { color: white !important; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 0 12px !important; border-radius: 8px; margin: 0 2px; font-size: 0.9rem; height: 70px; display: flex; align-items: center; }
+        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 0 15px !important; border-radius: 0; margin: 0; font-size: 0.9rem; height: 75px; display: flex; align-items: center; }
         .nav-link i { font-size: 0.85rem; }
         .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.1); }
-        .nav-link.active { color: #ffd700 !important; background: rgba(255,255,255,0.15); }
         .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; margin-top: 10px; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
         .btn-primary { background: linear-gradient(135deg, #8B0000, #cc0000); border: none; border-radius: 10px; font-weight: 600; padding: 8px 20px; transition: all 0.3s; }
