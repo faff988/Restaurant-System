@@ -42,13 +42,18 @@ namespace RestaurantSystem.Controllers
                 await _context.SaveChangesAsync();
                 
                 TempData["Success"] = "Table successfully booked!";
-                return RedirectToAction(nameof(Index));
+                
+                if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                    return RedirectToAction(nameof(Index));
+                
+                return RedirectToAction("Index", "Home");
             }
             return View(reservation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Delete(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);

@@ -53,8 +53,7 @@ namespace RestaurantSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Details(int id)
         {
             var order = await _context.Orders.Include(o => o.OrderDetails)
@@ -64,6 +63,7 @@ namespace RestaurantSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> UpdateStatus(int id, string status)
         {
             var order = await _context.Orders.FindAsync(id);
@@ -72,6 +72,23 @@ namespace RestaurantSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Order deleted successfully.";
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Receipt(int id)
         {
             var order = await _context.Orders.Include(o => o.OrderDetails)
