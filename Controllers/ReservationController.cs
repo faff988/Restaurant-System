@@ -35,8 +35,8 @@ namespace RestaurantSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(reservation.Status)) reservation.Status = "Confirmed";
-                reservation.SpecialRequests ??= ""; // Handle blank requests to prevent DB errors
+                reservation.Status ??= "Confirmed";
+                reservation.SpecialRequests ??= "None"; // Ensures DB doesn't reject null
                 
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();

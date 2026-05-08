@@ -9,14 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        body { background-color: #f8f9fc; color: #2d3436; margin: 0; padding: 0; overflow-x: hidden; } /* Added overflow-x: hidden to prevent horizontal scroll on some mobile devices */
-        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+        body { background-color: #f8f9fc; color: #2d3436; margin: 0 !important; padding: 0 !important; overflow-x: hidden; }
+        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); margin-top: 0 !important; min-height: 70px; display: flex; align-items: center; }
         .navbar-brand { color: white !important; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 8px 12px !important; border-radius: 8px; margin: 0 2px; font-size: 0.9rem; }
+        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 8px 10px !important; border-radius: 8px; margin: 0 1px; font-size: 0.88rem; display: flex; align-items: center; }
         .nav-link i { font-size: 0.85rem; }
         .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.1); }
         .nav-link.active { color: #ffd700 !important; background: rgba(255,255,255,0.15); }
-        .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; margin-top: 10px; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
         .btn-primary { background: linear-gradient(135deg, #8B0000, #cc0000); border: none; border-radius: 10px; font-weight: 600; padding: 8px 20px; transition: all 0.3s; }
         .btn-primary:hover { background: linear-gradient(135deg, #6b0000, #aa0000); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(139,0,0,0.4); }
@@ -26,6 +26,7 @@
         .btn-outline-secondary { border-radius: 10px; font-weight: 600; }
         .badge { border-radius: 8px; padding: 6px 12px; font-weight: 600; }
         .table { border-radius: 12px; overflow: hidden; }
+        .table td { vertical-align: middle; }
         .table thead th { background: #1a1a2e; color: white; border: none; padding: 14px; font-weight: 600; }
         .table tbody tr:hover { background: #fff5f5; }
         .form-control, .form-select { border-radius: 10px; border: 2px solid #e9ecef; padding: 12px 15px; transition: all 0.3s; font-size: 16px; }

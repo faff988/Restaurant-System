@@ -48,12 +48,14 @@ namespace RestaurantSystem.Controllers
             }
 
             order.TotalAmount = total;
+            order.Status = "Pending";
+            
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
 
             // Redirect based on user role
-            if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+            if (User.IsInRole("Admin") || User.IsInRole("Staff") || User.IsInRole("Customer"))
             {
                 return RedirectToAction(nameof(Index)); // Redirect to management list
             }
