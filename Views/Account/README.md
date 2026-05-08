@@ -2,7 +2,7 @@
 
 A professional web application for managing restaurant operations, built with ASP.NET Core, Entity Framework, and MySQL.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 * [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -25,24 +25,24 @@ A professional web application for managing restaurant operations, built with AS
    dotnet run
    ```
 
-## 🔑 Default Credentials
+## Default Credentials
 Upon initial startup, the system automatically seeds the roles and a default administrator account:
 * **Email**: `admin@restaurant.com`
 * **Password**: `admin123`
 
-## 🛡️ User Roles
+## User Roles
 The system features a three-tier access control system:
 1. **Administrator**: Full access to the Dashboard, User Management, Reports, and System Settings.
 2. **Staff**: Access to business operations, including managing live Orders and table Reservations.
 3. **Customer**: Access to browse the Menu, place new Orders, and book table Reservations.
 
-## 🛠️ Tech Stack
+## Tech Stack
 * **Backend**: C# ASP.NET Core MVC
 * **Database**: MySQL / MariaDB via Entity Framework Core
 * **Authentication**: Microsoft Identity
 * **Frontend**: Razor Pages, Bootstrap 5.3, FontAwesome 6.4
 
-## 📝 Documentation Requirement
+## Documentation Requirement
 This project includes automatic database migration logic in `Program.cs` to ensure "Zero-Configuration" deployment on platforms like Railway.
 
 ---
