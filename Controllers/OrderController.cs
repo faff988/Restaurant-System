@@ -28,15 +28,32 @@ namespace RestaurantSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken] // Added for security
-        public async Task<IActionResult> Create(string customerName, string customerEmail, int[] menuItemIds, int[] quantities)
+        public async Task<IActionResult> Create(string customerName, string customerEmail, int[]? menuItemIds, int[]? quantities)
         {
-            var order = new Order { CustomerName = customerName, CustomerEmail = customerEmail };
-            decimal total = 0;
-
-            for (int i = 0; i < menuItemIds.Length; i++)
+            if (menuItemIds == null || quantities == null || menuItemIds.Length == 0)
             {
-                var menuItem = await _context.MenuItems.FindAsync(menuItemIds[i]);
-                if (menuItem != null && quantities[i] > 0)
+                ModelState.AddModelError("", "Please select at least one menu item.");
+                ViewBag.MenuItems = await _context.MenuItems.Where(m => m.IsAvailable).ToListAsync();
+                return View();
+            }
+
+            var order = new Order 
+            { 
+                CustomerName = customerName, 
+                CustomerEmail = User.IsInRole("Customer") ? User.Identity?.Name : customerEmail,
+                OrderDetails = new List<OrderDetail>()
+            };
+
+            decimal total = 0;
+            
+            // Batch fetch menu items for better performance
+            var menuItems = await _context.MenuItems
+                .Where(m => menuItemIds.Contains(m.Id))
+                .ToDictionaryAsync(m => m.Id);
+
+            for (int i = 0; i < Math.Min(menuItemIds.Length, quantities.Length); i++)
+            {
+                if (menuItems.TryGetValue(menuItemIds[i], out var menuItem) && quantities[i] > 0)
                 {
                     order.OrderDetails.Add(new OrderDetail
                     {
@@ -46,6 +63,13 @@ namespace RestaurantSystem.Controllers
                     });
                     total += menuItem.Price * quantities[i];
                 }
+            }
+
+            if (order.OrderDetails.Count == 0)
+            {
+                ModelState.AddModelError("", "Invalid quantities selected.");
+                ViewBag.MenuItems = await _context.MenuItems.Where(m => m.IsAvailable).ToListAsync();
+                return View();
             }
 
             order.TotalAmount = total;
