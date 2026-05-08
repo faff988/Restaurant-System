@@ -12,7 +12,7 @@ namespace RestaurantSystem.Controllers
         private readonly ApplicationDbContext _context;
         public ReservationController(ApplicationDbContext context) { _context = context; }
 
-        [Authorize(Roles = "Admin,Staff")]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var reservations = await _context.Reservations.ToListAsync();
@@ -36,24 +36,16 @@ namespace RestaurantSystem.Controllers
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(reservation.Status)) reservation.Status = "Confirmed";
-                reservation.SpecialRequests ??= ""; // Prevents DB errors when field is empty
+                reservation.SpecialRequests ??= ""; // Handle blank requests to prevent DB errors
                 
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
-                
-                TempData["Success"] = "Table successfully booked!";
-                
-                if (User.IsInRole("Admin") || User.IsInRole("Staff"))
-                    return RedirectToAction(nameof(Index));
-                
-                return RedirectToAction("Index", "Home");
+                TempData["Success"] = "Reservation booked successfully!";
+                return RedirectToAction(nameof(Index));
             }
             return View(reservation);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Delete(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);
