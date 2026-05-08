@@ -74,6 +74,8 @@ using (var scope = app.Services.CreateScope())
 
     if (!await roleManager.RoleExistsAsync("Admin"))
         await roleManager.CreateAsync(new IdentityRole("Admin"));
+    if (!await roleManager.RoleExistsAsync("Staff"))
+        await roleManager.CreateAsync(new IdentityRole("Staff"));
     if (!await roleManager.RoleExistsAsync("Customer"))
         await roleManager.CreateAsync(new IdentityRole("Customer"));
 

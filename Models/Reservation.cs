@@ -9,6 +9,6 @@ namespace RestaurantSystem.Models
         public DateTime ReservationDate { get; set; }
         public int NumberOfGuests { get; set; }
         public string Status { get; set; } = "Confirmed";
-        public string SpecialRequests { get; set; } = string.Empty;
+        public string? SpecialRequests { get; set; }
     }
 }
