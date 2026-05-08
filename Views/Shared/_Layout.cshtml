@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,14 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        body { background-color: #f0f2f5; }
+        body { background-color: #f8f9fc; color: #2d3436; }
         .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
         .navbar-brand { color: white !important; font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; }
         .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 6px 12px !important; border-radius: 8px; margin: 0 2px; font-size: 0.9rem; }
         .nav-link i { font-size: 0.85rem; }
         .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.1); }
         .nav-link.active { color: #ffd700 !important; background: rgba(255,255,255,0.15); }
-        .card { border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+        .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
         .btn-primary { background: linear-gradient(135deg, #8B0000, #cc0000); border: none; border-radius: 10px; font-weight: 600; padding: 8px 20px; transition: all 0.3s; }
         .btn-primary:hover { background: linear-gradient(135deg, #6b0000, #aa0000); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(139,0,0,0.4); }
@@ -28,8 +28,12 @@
         .table { border-radius: 12px; overflow: hidden; }
         .table thead th { background: #1a1a2e; color: white; border: none; padding: 14px; font-weight: 600; }
         .table tbody tr:hover { background: #fff5f5; }
-        .form-control, .form-select { border-radius: 10px; border: 2px solid #e9ecef; padding: 10px 15px; transition: border-color 0.3s; }
-        .form-control:focus, .form-select:focus { border-color: #8B0000; box-shadow: 0 0 0 0.2rem rgba(139,0,0,0.15); }
+        .form-control, .form-select { border-radius: 10px; border: 2px solid #e9ecef; padding: 12px 15px; transition: all 0.3s; font-size: 16px; }
+        .form-control:focus, .form-select:focus { border-color: #8B0000; box-shadow: 0 0 0 0.25rem rgba(139,0,0,0.1); }
+        .input-group-text { background: #f8f9fa; border: 2px solid #e9ecef; border-right: none; border-radius: 10px 0 0 10px; color: #8B0000; width: 45px; justify-content: center; }
+        .input-group > .form-control { border-left: none; border-radius: 0 10px 10px 0; }
+        .input-group:focus-within .input-group-text { border-color: #8B0000; color: #cc0000; }
+
         .page-header { background: linear-gradient(135deg, #1a1a2e, #8B0000); color: white; border-radius: 16px; padding: 30px; margin-bottom: 30px; }
         .stat-card { border-radius: 16px; padding: 24px; color: white; position: relative; overflow: hidden; }
         .stat-card::before { content: ''; position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.1); }
@@ -37,6 +41,18 @@
         .sidebar-link { display: block; padding: 10px 16px; border-radius: 10px; color: #495057; text-decoration: none; font-weight: 500; margin-bottom: 4px; transition: all 0.2s; }
         .sidebar-link:hover, .sidebar-link.active { background: linear-gradient(135deg, #8B0000, #cc0000); color: white; }
         .sidebar-link i { width: 20px; }
+
+        @@media (max-width: 991.98px) {
+            .navbar-collapse { 
+                background: rgba(26, 26, 46, 0.98); 
+                padding: 20px; 
+                border-radius: 15px; 
+                margin-top: 15px; 
+                backdrop-filter: blur(10px);
+            }
+            .nav-link { padding: 12px 15px !important; margin: 5px 0; font-size: 1.05rem; }
+            .btn-outline-light { width: 100%; text-align: center; margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
