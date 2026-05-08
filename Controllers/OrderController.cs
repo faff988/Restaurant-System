@@ -54,13 +54,14 @@ namespace RestaurantSystem.Controllers
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
             
-            // Unified Flow: Staff and Admins see the management list immediately
+            // Unified Flow: Staff and Admins see the management list immediately.
+            // Customers are redirected to their specific order details.
             if (User.IsInRole("Admin") || User.IsInRole("Staff"))
             {
                 return RedirectToAction(nameof(Index));
             }
-
-            return RedirectToAction("Index", "Home");
+            // For regular users, redirect to the details of the order they just placed
+            return RedirectToAction(nameof(Details), new { id = order.Id });
         }
 
         [Authorize(Roles = "Admin,Staff")]
@@ -70,6 +71,14 @@ namespace RestaurantSystem.Controllers
                 .ThenInclude(od => od.MenuItem).FirstOrDefaultAsync(o => o.Id == id);
             if (order == null) return NotFound();
             return View(order);
+        }
+        // Allow customers to view their own order details
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> CustomerDetails(int id)
+        {
+            var order = await _context.Orders.Include(o => o.OrderDetails).ThenInclude(od => od.MenuItem).FirstOrDefaultAsync(o => o.Id == id && o.CustomerEmail == User.Identity.Name);
+            if (order == null) return NotFound();
+            return View("Details", order); // Use the same Details view
         }
 
         [HttpPost]

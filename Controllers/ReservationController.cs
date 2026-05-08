@@ -28,6 +28,14 @@ namespace RestaurantSystem.Controllers
             if (reservation == null) return NotFound();
             return View(reservation);
         }
+        // Allow customers to view their own reservation details
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> CustomerDetails(int id)
+        {
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && m.CustomerEmail == User.Identity.Name);
+            if (reservation == null) return NotFound();
+            return View("Details", reservation); // Use the same Details view
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,7 +50,13 @@ namespace RestaurantSystem.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Reservation booked successfully!";
                 
-                if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                // Unified Flow: Staff and Admins go to the management list.
+                // Customers are redirected to their specific reservation details.
+                if (User.IsInRole("Customer"))
+                {
+                    return RedirectToAction(nameof(CustomerDetails), new { id = reservation.Id });
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("Staff"))
                 {
                     return RedirectToAction(nameof(Index));
                 }
