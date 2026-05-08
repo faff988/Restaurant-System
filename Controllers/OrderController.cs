@@ -55,14 +55,13 @@ namespace RestaurantSystem.Controllers
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
             
-            // Redirect based on user role
             if (User.IsInRole("Customer"))
             {
                 return RedirectToAction(nameof(CustomerDetails), new { id = order.Id });
             }
-            // For Admin/Staff, redirect to the management list
-            // For other authenticated users (e.g., Staff), redirect to the details page
-            return RedirectToAction(nameof(Index)); 
+
+            // Staff/Admins now see the specific order details immediately to confirm
+            return RedirectToAction(nameof(Details), new { id = order.Id }); 
         }
 
         [Authorize(Roles = "Admin,Staff")]

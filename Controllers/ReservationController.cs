@@ -51,11 +51,12 @@ namespace RestaurantSystem.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Reservation booked successfully!";
                 
-                // Redirect to review page immediately so they can see what they booked
                 if (User.IsInRole("Customer"))
                 {
                     return RedirectToAction(nameof(CustomerDetails), new { id = reservation.Id });
                 }
+                
+                // Staff/Admins see the specific booking details immediately
                 return RedirectToAction(nameof(Details), new { id = reservation.Id });
             }
             return View(reservation);
