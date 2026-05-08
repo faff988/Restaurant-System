@@ -12,7 +12,7 @@ namespace RestaurantSystem.Controllers
         private readonly ApplicationDbContext _context;
         public OrderController(ApplicationDbContext context) { _context = context; }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Index()
         {
             var orders = await _context.Orders.Include(o => o.OrderDetails)
@@ -53,6 +53,8 @@ namespace RestaurantSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(int id)
         {
             var order = await _context.Orders.Include(o => o.OrderDetails)
