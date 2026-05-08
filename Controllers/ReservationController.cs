@@ -21,13 +21,24 @@ namespace RestaurantSystem.Controllers
 
         public IActionResult Create() => View();
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id);
+            if (reservation == null) return NotFound();
+            return View(reservation);
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Reservation reservation)
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(reservation.Status)) reservation.Status = "Confirmed";
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Reservation booked successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(reservation);

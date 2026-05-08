@@ -65,23 +65,35 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home me-1"></i>Home</a></li>
-            <li class="nav-item"><a class="nav-link" asp-controller="Menu" asp-action="Index"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Menu" asp-action="Index"><i class="fas fa-utensils me-1"></i>Menu</a></li>
 
-            @* Management Section (Admin/Staff Only) *@
+            @* Services Dropdown *@
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-concierge-bell me-1"></i>Services</a>
+                <ul class="dropdown-menu dropdown-menu-dark border-0 shadow">
+                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Create"><i class="fas fa-shopping-cart me-2"></i>Order Now</a></li>
+                    <li><a class="dropdown-item" asp-controller="Reservation" asp-action="Create"><i class="fas fa-table me-2"></i>Book a Table</a></li>
+                </ul>
+            </li>
+
+            @* Management Dropdown (Admin/Staff Only) *@
             @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
             {
-                <li class="nav-item"><a class="nav-link text-warning" asp-controller="Order" asp-action="Index"><i class="fas fa-tasks me-1"></i>Manage Orders</a></li>
-                <li class="nav-item"><a class="nav-link text-warning" asp-controller="Reservation" asp-action="Index"><i class="fas fa-calendar-check me-1"></i>Manage Bookings</a></li>
-            }
-
-            @* Customer Features (Visible to Everyone for better flow) *@
-            <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Create"><i class="fas fa-shopping-cart me-1"></i>Order Now</a></li>
-            <li class="nav-item"><a class="nav-link" asp-controller="Reservation" asp-action="Create"><i class="fas fa-table me-1"></i>Book Table</a></li>
-
-            @if (User.IsInRole("Admin"))
-            {
-                <li class="nav-item"><a class="nav-link" asp-controller="Report" asp-action="Index"><i class="fas fa-chart-bar me-1"></i>Reports</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Index"><i class="fas fa-cog me-1"></i>Admin</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-tools me-1"></i>Management
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                        <li><a class="dropdown-item" asp-controller="Order" asp-action="Index"><i class="fas fa-list-check me-2"></i>Manage Orders</a></li>
+                        <li><a class="dropdown-item" asp-controller="Reservation" asp-action="Index"><i class="fas fa-calendar-days me-2"></i>Manage Bookings</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-controller="Report" asp-action="Index"><i class="fas fa-chart-line me-2"></i>Sales Reports</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index"><i class="fas fa-user-gear me-2"></i>System Admin</a></li>
+                        }
+                    </ul>
+                </li>
             }
 
             @if (User.Identity != null && User.Identity.IsAuthenticated)
