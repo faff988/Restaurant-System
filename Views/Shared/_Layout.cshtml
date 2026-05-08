@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,41 +42,41 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="/"><i class="fas fa-utensils me-2"></i>🍽️ RestaurantSystem</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index"><i class="fas fa-utensils me-2"></i>🍽️ RestaurantSystem</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a></li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fas fa-home me-1"></i>Home</a></li>
             
             @if (User.IsInRole("Admin"))
             {
-                <li class="nav-item"><a class="nav-link" href="/Menu"><i class="fas fa-book-open me-1"></i>Menu</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Order"><i class="fas fa-shopping-cart me-1"></i>Orders</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Reservation"><i class="fas fa-calendar me-1"></i>Reservations</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Report"><i class="fas fa-chart-bar me-1"></i>Reports</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Admin"><i class="fas fa-cog me-1"></i>Admin</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Menu" asp-action="Index"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Index"><i class="fas fa-shopping-cart me-1"></i>Orders</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Reservation" asp-action="Index"><i class="fas fa-calendar me-1"></i>Reservations</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Report" asp-action="Index"><i class="fas fa-chart-bar me-1"></i>Reports</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Index"><i class="fas fa-cog me-1"></i>Admin</a></li>
             }
             else
             {
-                <li class="nav-item"><a class="nav-link" href="/Menu"><i class="fas fa-book-open me-1"></i>Menu</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Order/Create"><i class="fas fa-shopping-cart me-1"></i>Order Now</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Reservation/Create"><i class="fas fa-calendar me-1"></i>Book Table</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Menu" asp-action="Index"><i class="fas fa-book-open me-1"></i>Menu</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Create"><i class="fas fa-shopping-cart me-1"></i>Order Now</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Reservation" asp-action="Create"><i class="fas fa-calendar me-1"></i>Book Table</a></li>
             }
 
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 <li class="nav-item ms-2">
-                    <a class="nav-link btn btn-outline-light px-3" href="/Account/Logout">
+                    <a class="nav-link btn btn-outline-light px-3" asp-controller="Account" asp-action="Logout">
                         <i class="fas fa-sign-out-alt me-1"></i>Logout
                     </a>
                 </li>
             }
             else
             {
-                <li class="nav-item"><a class="nav-link" href="/Account/Login"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/Account/Register"><i class="fas fa-user-plus me-1"></i>Register</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fas fa-user-plus me-1"></i>Register</a></li>
             }
         </ul>
             </div>
