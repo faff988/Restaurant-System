@@ -63,7 +63,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine("---------------------------------------------------------------------------");
-        Console.WriteLine("DATABASE CONNECTION ERROR: Ensure WampServer is green, the database 'restaurantdb' exists, and the port in appsettings.json matches your MySQL port.");
+        Console.WriteLine("DATABASE CONNECTION ERROR: Check your Railway Environment Variables and ensure the MySQL service is running.");
         Console.WriteLine($"Error Details: {ex.Message}");
         Console.WriteLine("---------------------------------------------------------------------------");
         throw;
