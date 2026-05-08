@@ -50,18 +50,12 @@ namespace RestaurantSystem.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Reservation booked successfully!";
                 
-                // Unified Flow: Staff and Admins go to the management list.
-                // Customers are redirected to their specific reservation details.
+                // Redirect to review page immediately so they can see what they booked
                 if (User.IsInRole("Customer"))
                 {
                     return RedirectToAction(nameof(CustomerDetails), new { id = reservation.Id });
                 }
-                else if (User.IsInRole("Admin") || User.IsInRole("Staff"))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Details), new { id = reservation.Id });
             }
             return View(reservation);
         }

@@ -54,13 +54,11 @@ namespace RestaurantSystem.Controllers
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
             
-            // Unified Flow: Staff and Admins see the management list immediately.
-            // Customers are redirected to their specific order details.
-            if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+            // Redirect to review page immediately
+            if (User.IsInRole("Customer"))
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(CustomerDetails), new { id = order.Id });
             }
-            // For regular users, redirect to the details of the order they just placed
             return RedirectToAction(nameof(Details), new { id = order.Id });
         }
 

@@ -9,14 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
-        body { background-color: #f8f9fc; color: #2d3436; overflow-x: hidden; position: relative; }
-        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); margin: 0; min-height: 75px; display: flex; align-items: center; border-radius: 0; padding: 0; border: none; position: fixed; top: 0; left: 0; width: 100%; z-index: 1030; }
+        html, body { margin: 0 !important; padding: 0 !important; }
+        body { background-color: #f8f9fc; color: #2d3436; overflow-x: hidden; position: relative; top: 0; }
+        .navbar { background: linear-gradient(135deg, #1a1a2e, #8B0000) !important; box-shadow: 0 2px 20px rgba(0,0,0,0.3); margin: 0 !important; min-height: 75px; display: flex; align-items: center; border-radius: 0; padding: 0; border: none; position: fixed; top: 0; left: 0; width: 100%; z-index: 1030; }
         .navbar-brand { color: white !important; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 0 15px !important; border-radius: 0; margin: 0; font-size: 0.9rem; height: 75px; display: flex; align-items: center; } /* Adjusted padding for better fit */
+        .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; transition: all 0.3s; padding: 0 15px !important; border-radius: 0; margin: 0; font-size: 0.9rem; height: 75px; display: flex; align-items: center; justify-content: center; }
         .nav-link i { font-size: 0.85rem; }
-        .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.1); }
-        .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; margin-top: 10px; } /* Removed margin-top to allow main content to start below fixed navbar */
+        .nav-link:hover { color: #ffd700 !important; background: rgba(255,255,255,0.05); }
+        .card { border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
         .btn-primary { background: linear-gradient(135deg, #8B0000, #cc0000); border: none; border-radius: 10px; font-weight: 600; padding: 8px 20px; transition: all 0.3s; }
         .btn-primary:hover { background: linear-gradient(135deg, #6b0000, #aa0000); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(139,0,0,0.4); }
@@ -27,6 +27,7 @@
         .badge { border-radius: 8px; padding: 6px 12px; font-weight: 600; }
         .table { border-radius: 12px; overflow: hidden; }
         .table td { vertical-align: middle; }
+        .btn-action { width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border-radius: 10px; }
         .table .btn { margin: 0; } /* Remove default button margins */
         .table .form-select { margin: 0; } /* Remove default select margins */
 

@@ -26,7 +26,7 @@
             @foreach (var reservation in Model)
             {
                 <tr>
-                    <td class="text-center fw-bold">@(i++)</td>
+                    <td class="text-center fw-bold text-muted">@(i++)</td>
                     <td>@reservation.CustomerName<br /><small class="text-muted">@reservation.CustomerEmail</small></td>
                     <td>@reservation.ReservationDate.ToString("MMM dd, yyyy HH:mm")</td>
                     <td class="text-center">@reservation.NumberOfGuests</td>
@@ -36,9 +36,9 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center gap-2 justify-content-center">
-                            <a asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-outline-primary d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;" title="View"><i class="fas fa-eye"></i></a>
+                            <a asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-outline-primary btn-action" title="View"><i class="fas fa-eye"></i></a>
                             <form asp-action="Delete" asp-route-id="@reservation.Id" method="post" class="d-inline m-0" onsubmit="return confirm('Delete permanently?');">
-                                <button type="submit" class="btn btn-outline-danger d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
+                                <button type="submit" class="btn btn-outline-danger btn-action">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
