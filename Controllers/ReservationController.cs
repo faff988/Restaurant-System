@@ -12,7 +12,7 @@ namespace RestaurantSystem.Controllers
         private readonly ApplicationDbContext _context;
         public ReservationController(ApplicationDbContext context) { _context = context; }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Staff")] // Only Admin/Staff can view all reservations
         public async Task<IActionResult> Index()
         {
             var reservations = await _context.Reservations.ToListAsync();
