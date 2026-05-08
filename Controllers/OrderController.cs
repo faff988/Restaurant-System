@@ -53,13 +53,8 @@ namespace RestaurantSystem.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Order placed successfully!";
-
-            // Redirect based on user role
-            if (User.IsInRole("Admin") || User.IsInRole("Staff") || User.IsInRole("Customer"))
-            {
-                return RedirectToAction(nameof(Index)); // Redirect to management list
-            }
-            return RedirectToAction("Index", "Home"); // Redirect regular users to home or a confirmation page
+            
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin,Staff")]
