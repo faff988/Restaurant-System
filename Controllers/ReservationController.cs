@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantSystem.Data;
 using RestaurantSystem.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantSystem.Controllers
 {
@@ -11,13 +10,7 @@ namespace RestaurantSystem.Controllers
     public class ReservationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public ReservationController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+        public ReservationController(ApplicationDbContext context) { _context = context; }
 
         [Authorize(Roles = "Admin,Staff")] // Only Admin/Staff can view all reservations
         public async Task<IActionResult> Index()
@@ -26,20 +19,7 @@ namespace RestaurantSystem.Controllers
             return View(reservations);
         }
 
-        public async Task<IActionResult> Create()
-        {
-            // If the user is logged in, pre-fill their name and email
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                var user = await _userManager.GetUserAsync(User);
-                var model = new Reservation { 
-                    CustomerEmail = user?.Email ?? "",
-                    CustomerName = user?.UserName?.Split('@')[0] ?? "" // Uses part of email as name
-                };
-                return View(model);
-            }
-            return View();
-        }
+        public IActionResult Create() => View();
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,8 +33,7 @@ namespace RestaurantSystem.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CustomerDetails(int id)
         {
-            var userId = _userManager.GetUserId(User);
-            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && (m.UserId == userId || m.CustomerEmail == User.Identity.Name));
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && m.CustomerEmail == User.Identity.Name);
             if (reservation == null) return NotFound();
             return View("Details", reservation); // Use the same Details view
         }
@@ -68,21 +47,8 @@ namespace RestaurantSystem.Controllers
                 reservation.Status ??= "Confirmed";
                 reservation.SpecialRequests ??= "None"; // Ensures DB doesn't reject null
                 
-                // Automatically link the reservation to the logged-in user
-                reservation.UserId = _userManager.GetUserId(User);
-                
-                try 
-                {
-                    _context.Reservations.Add(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    // This catches the error if you haven't run the 'dotnet ef' commands yet
-                    ModelState.AddModelError("", "Database Error: Ensure you have run the migrations command. " + ex.Message);
-                    return View(reservation);
-                }
-
+                _context.Reservations.Add(reservation);
+                await _context.SaveChangesAsync();
                 TempData["Success"] = "Reservation booked successfully!";
                 
                 if (User.IsInRole("Customer"))
