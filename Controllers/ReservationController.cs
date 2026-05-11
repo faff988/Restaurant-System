@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantSystem.Data;
 using RestaurantSystem.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantSystem.Controllers
 {
@@ -10,7 +11,13 @@ namespace RestaurantSystem.Controllers
     public class ReservationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public ReservationController(ApplicationDbContext context) { _context = context; }
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public ReservationController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
 
         [Authorize(Roles = "Admin,Staff")] // Only Admin/Staff can view all reservations
         public async Task<IActionResult> Index()
@@ -33,7 +40,8 @@ namespace RestaurantSystem.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CustomerDetails(int id)
         {
-            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && m.CustomerEmail == User.Identity.Name);
+            var userId = _userManager.GetUserId(User);
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && (m.UserId == userId || m.CustomerEmail == User.Identity.Name));
             if (reservation == null) return NotFound();
             return View("Details", reservation); // Use the same Details view
         }
@@ -46,6 +54,9 @@ namespace RestaurantSystem.Controllers
             {
                 reservation.Status ??= "Confirmed";
                 reservation.SpecialRequests ??= "None"; // Ensures DB doesn't reject null
+                
+                // Automatically link the reservation to the logged-in user
+                reservation.UserId = _userManager.GetUserId(User);
                 
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
