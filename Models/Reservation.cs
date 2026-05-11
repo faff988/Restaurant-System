@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace RestaurantSystem.Models
 {
-    public class Reservation
+    public class Reservation : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -38,5 +38,13 @@ namespace RestaurantSystem.Models
         // Links the reservation to the registered User
         public string? UserId { get; set; }
         public virtual IdentityUser? User { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (ReservationDate < DateTime.Now)
+            {
+                yield return new ValidationResult("Reservation date must be in the future.", new[] { nameof(ReservationDate) });
+            }
+        }
     }
 }
