@@ -26,7 +26,20 @@ namespace RestaurantSystem.Controllers
             return View(reservations);
         }
 
-        public IActionResult Create() => View();
+        public async Task<IActionResult> Create()
+        {
+            // If the user is logged in, pre-fill their name and email
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var model = new Reservation { 
+                    CustomerEmail = user?.Email ?? "",
+                    CustomerName = user?.UserName?.Split('@')[0] ?? "" // Uses part of email as name
+                };
+                return View(model);
+            }
+            return View();
+        }
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -58,8 +71,18 @@ namespace RestaurantSystem.Controllers
                 // Automatically link the reservation to the logged-in user
                 reservation.UserId = _userManager.GetUserId(User);
                 
-                _context.Reservations.Add(reservation);
-                await _context.SaveChangesAsync();
+                try 
+                {
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    // This catches the error if you haven't run the 'dotnet ef' commands yet
+                    ModelState.AddModelError("", "Database Error: Ensure you have run the migrations command. " + ex.Message);
+                    return View(reservation);
+                }
+
                 TempData["Success"] = "Reservation booked successfully!";
                 
                 if (User.IsInRole("Customer"))
