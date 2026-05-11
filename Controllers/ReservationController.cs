@@ -71,8 +71,17 @@ namespace RestaurantSystem.Controllers
                 // Link the reservation to the current logged-in user
                 reservation.UserId = _userManager.GetUserId(User);
                 
-                _context.Reservations.Add(reservation);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "Database Error: Please ensure you have run 'dotnet ef database update'. Details: " + ex.InnerException?.Message);
+                    return View(reservation);
+                }
+
                 TempData["Success"] = "Reservation booked successfully!";
                 
                 if (User.IsInRole("Customer"))
