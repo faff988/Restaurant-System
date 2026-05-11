@@ -49,8 +49,3 @@ The system features a three-tier access control system:
 * **Authentication**: Microsoft Identity
 * **Frontend**: Razor Pages, Bootstrap 5.3, FontAwesome 6.4
 
-## Documentation Requirement
-This project includes automatic database migration logic in `Program.cs` to ensure "Zero-Configuration" deployment on platforms like Railway.
-
----
-*Submitted for Web Frameworks Assignment.*
