@@ -35,10 +35,6 @@ namespace RestaurantSystem.Models
         [Display(Name = "Special Requests")]
         public string? SpecialRequests { get; set; }
 
-        // Links the reservation to the registered User
-        public string? UserId { get; set; }
-        public virtual IdentityUser? User { get; set; }
-
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (ReservationDate < DateTime.Now)

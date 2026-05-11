@@ -53,8 +53,7 @@ namespace RestaurantSystem.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CustomerDetails(int id)
         {
-            var userId = _userManager.GetUserId(User);
-            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && (m.UserId == userId || m.CustomerEmail == User.Identity.Name));
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(m => m.Id == id && m.CustomerEmail == User.Identity.Name);
             if (reservation == null) return NotFound();
             return View("Details", reservation); // Use the same Details view
         }
@@ -68,8 +67,11 @@ namespace RestaurantSystem.Controllers
                 reservation.Status ??= "Confirmed";
                 reservation.SpecialRequests ??= "None"; // Ensures DB doesn't reject null
                 
-                // Link the reservation to the current logged-in user
-                reservation.UserId = _userManager.GetUserId(User);
+                // If a customer is logged in, ensure we use their account email
+                if (User.IsInRole("Customer"))
+                {
+                    reservation.CustomerEmail = User.Identity?.Name ?? reservation.CustomerEmail;
+                }
                 
                 try
                 {
