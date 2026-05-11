@@ -25,10 +25,17 @@ A professional web application for managing restaurant operations, built with AS
    dotnet run
    ```
 
-## Default Credentials
-Upon initial startup, the system automatically seeds the roles and a default administrator account:
-* **Email**: `admin@restaurant.com`
-* **Password**: `admin123`
+## Demo Accounts
+The system automatically seeds the following accounts for testing purposes:
+
+### Administrator
+* **Email**: `admin@restaurant.com` | **Password**: `admin123`
+
+### Staff
+* **Email**: `staff@restaurant.com` | **Password**: `staff123`
+
+### Customer
+* **Email**: `customer@restaurant.com` | **Password**: `customer123`
 
 ## User Roles
 The system features a three-tier access control system:

@@ -87,6 +87,24 @@ using (var scope = app.Services.CreateScope())
         await userManager.CreateAsync(adminUser, "admin123");
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
+
+    var staffEmail = "staff@restaurant.com";
+    var staffUser = await userManager.FindByEmailAsync(staffEmail);
+    if (staffUser == null)
+    {
+        staffUser = new IdentityUser { UserName = staffEmail, Email = staffEmail };
+        await userManager.CreateAsync(staffUser, "staff123");
+        await userManager.AddToRoleAsync(staffUser, "Staff");
+    }
+
+    var customerEmail = "customer@restaurant.com";
+    var customerUser = await userManager.FindByEmailAsync(customerEmail);
+    if (customerUser == null)
+    {
+        customerUser = new IdentityUser { UserName = customerEmail, Email = customerEmail };
+        await userManager.CreateAsync(customerUser, "customer123");
+        await userManager.AddToRoleAsync(customerUser, "Customer");
+    }
 }
 
 app.Run();
